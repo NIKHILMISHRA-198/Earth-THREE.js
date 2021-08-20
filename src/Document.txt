@@ -1,0 +1,412 @@
+_____________________________________________________________________________________________
+
+Objects!
+
+
+// const geometry = new THREE.Geometry()
+
+// for (let i = 0; i < 50; i++) {
+//     for (let j = 0; j < 3; j++) {
+//         geometry.vertices.push(new THREE.Vector3(
+//             (Math.random() - 0.5) * 4,
+//             (Math.random() - 0.5) * 4,
+//             (Math.random() - 0.5) * 4
+//         ))
+//     }
+//     const verticesIndex = i * 3
+//     geometry.faces.push(new THREE.Face3(
+//         verticesIndex + 0,
+//         verticesIndex + 1,
+//         verticesIndex + 2
+//     ))
+// }
+
+// const geometry = new THREE.BoxBufferGeometry(1, 1, 1, 2, 2, 2)
+
+// const geometry = new THREE.BufferGeometry()
+// const count = 50
+// const postionsArray = new Float32Array(count * 3 * 3)
+
+// for (let i = 0; i < count * 3 * 3; i++) {
+//     postionsArray[i] = Math.random()
+// }
+
+// const positionsAttribute = new THREE.BufferAttribute(postionsArray, 3)
+
+// geometry.setAttribute('position', positionsAttribute)
+
+
+_____________________________________________________________________________________________
+In order to group objects
+
+// const group = new THREE.Group()
+// scene.add(group)
+
+// const cube1 = new THREE.Mesh(
+//     new THREE.BoxGeometry(1, 1, 1),
+//     new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// )
+
+// group.add(cube1)
+
+// // const cube2 = new THREE.Mesh(
+// //     new THREE.BoxGeometry(1, 1, 1),
+// //     new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+// // )
+// // cube2.position.x = -2
+
+// // group.add(cube2)
+
+
+
+// // const cube3 = new THREE.Mesh(
+// //     new THREE.BoxGeometry(1, 1, 1),
+// //     new THREE.MeshBasicMaterial({ color: 0x0000ff })
+// // )
+// // cube3.position.x = 2
+
+// // group.add(cube3)
+_____________________________________________________________________________________________
+
+
+/*There are 4 Properties to transform Objects
+
+*position
+*scale
+*rotation
+*quaternion
+
+
+To move objects,
+Position.
+*x
+*y
+*z
+
+
+Object3D instances have lookAt(...) method which rotates the object so that its -z faces the target you provided
+The target must be a Vector3
+
+camera.lookAt(new THREE.Vector3(0,-1,0))
+
+
+
+You can put objects inside groups and use position, rotation (or quaternion),  and scale on those groups
+To do that, use the Group class\\\
+
+_____________________________________________________________________________________________
+//Animations//
+
+
+The purpose of requestAnimationFrame is to call the function provided on the next requestAnimationFrame
+We are going to call the same function on each new frame
+
+create tick function and call its
+In the function calll it again but using window.requestAnimationFrame(...)
+
+
+const tick =() => {
+    console.log('tick')
+    window.requestAnimationFrame(tick)
+}
+
+tick()
+
+We need to know how much time it's been since the last tick
+Use Date.now()  to get the timestamp
+
+const time  = Date.now()
+
+
+instead of using time = Date.now()
+
+another solution to it is a built in function in THREE.js i.e Clock
+
+Instantiate a Clock and use its getElapsedTime() method
+const clock = new THREE.clock()
+
+const tick=  () => {
+    const elapsedTime  = clock.getElapsedTime()
+
+    //update Objects
+    mesh.rotation.y = elapsedTime
+    //
+}
+
+
+If you want to have more control, create tweens,  create timelines etc. use GSAP like libraries.
+
+//using GSAP
+
+gsap.to(mesh.position, {duration: 1, x: 2})
+
+const tick=  () => {
+    //Render
+
+    renderer.render(scene, camera)
+
+    //call tick again on the next frame
+    window.requestAnimationFrame(tick)
+}
+tick()
+
+_____________________________________________________________________________________________
+//Camera is an abstract class, You are not supposed to use it directly
+
+//ArrayCamera render the scene from multiple cameras on specific areas of the render
+
+//StereoCamera render the scene through two camera that mimic the eyes to create a parallax effect
+Use with device like VR headset, red and blue glasses or cardboard
+
+//Cubecamera do 6 renders, each one facing a different direction 
+can render the surrounding for things like environment map, reflection or shadow map
+
+//OrthographicCamera render the scene without perspective
+
+//PerspectiveCamera the scenewith perspective
+
+We will be using OrthographicCamera and PerspectiveCamera
+
+
+_____________________________________________________________________________________________
+THREE.PerspectiveCamera( 45, width / height, 1, 1000 );
+
+
+Field Of view"
+*Vertical vision angle
+*In degrees
+*also called fov
+
+
+Aspect ratio:   (Width of the render)/ (height of the render)
+
+near and frame:  how close/far the camera can see.
+
+_____________________________________________________________________________________________
+
+THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+
+THREE.OrthographicCamera(left, right, top, bottom, near, far)
+
+//Cursor assignment
+
+const cursor =
+{
+    x: 0,
+    y: 0
+}
+
+window.addEventListener('mousemove', (event) => {
+    cursor.x = event.clientX / sizes.width - 0.5
+    cursor.y = event.clientY / sizes.height
+})
+
+_____________________________________________________________________________________________
+
+Move the camera around the center of the scene by using Math.sin(...),Math.cos(...) and Math.Position
+
+_____________________________________________________________________________________________
+
+
+//Controls
+
+1. DeviceOrientationControls
+2. FlyControls
+3. FirstPersonControl
+4. OrbitControls
+5. PointerLockControl
+6. TrackballControls
+7. TransformControls
+8. DragControls
+
+//The damping will smooth the animation by adding some kind of acceleration and friction
+
+To enable damping, switch the enableDamping property to true
+
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+ remember to add controls.add inside tick() function!!
+_____________________________________________________________________________________________
+
+
+Full Screen and resizing!
+
+
+some might have blue outline on the cancas when drag and dropping
+Fix that with outline: none;
+
+.webgl {
+    position:fixed;
+    top:0;
+    left:0;
+    outline: none;
+}
+
+
+Handle resize
+window.addEventListener('resize', () => {
+    console.log('window has been resized')
+})
+
+
+When changing the properties like aspect, we need to call
+camera.updateProjectionMatrix()
+
+window.addEventListener('resize', () => {
+    //...
+
+    camera.updateProjectionMatrix()
+})
+
+Full screen byy double clicking anywhere!!
+
+window.addEventListener('dbclick, () => {
+    if(!docuement.fullscreenElement)
+    {
+        canvas.requestFullscreen()
+    }
+    else if (canvas.webkitRequestFullscreen()
+    {
+
+    }
+})
+
+_____________________________________________________________________________________________
+*/
+//What is GEOMETRY in THREEjs ?
+
+/**
+ *Composed of Vertices (coordinates in 3d spaces) and faces (triangles that join those vertices to create a surface)
+ *  All the following geometries inherit from Geometry
+
+
+
+ to create the face after creating the vertices, 
+
+ geometry.faces.push(new THREE.Face3(0,1,2))
+
+
+Before creating the BufferGeometry we need to understand how to store buffer geometry data
+
+we are going to use Float32Array for it!
+
+Typed ArrayCameracan only store floats
+Fixed Length
+Easier to handle for the computer
+
+
+2 ways of crwating and filling a Float32Array
+
+_____________________________________________________________________________________________
+debug using
+we can create our own or we can use a library
+
+dat.GUI
+control-panel
+ControlKit
+Guify
+Oui
+
+We need to add dat.gui dependency like we added gsap dependency
+
+https://www.npmjs.com/package/dat.gui 
+
+import * as dat from 'dat.gui'
+
+const gui = new dat.GUI() 
+
+types of element you can add to the panel
+
+Range -for numbers with min and max value
+Color- for colors with various formats
+Text
+checkbox
+select
+Button
+Folder
+
+Adding elements: 
+
+gui.add(mesh.position, 'y')
+
+We have to create a  temporary object in order to have an accessible property 
+Create a parameter variable at the start of your Composed
+
+Step 1
+
+const parameters =  {
+    color: 0xff0000
+}
+
+step2
+
+gui
+    .addColor(parameters, 'color')
+
+
+
+step 3
+
+gui
+    .addColor(parameters, 'color')
+    .onChange(() => {
+        material.color.set(parameters.color)
+    })
+
+_____________________________________________________________________________________________
+
+TEXTURE
+1. COLOR (ALBEDO)
+Most simple one
+Applied on the Geometry
+
+2. Alpha
+Grayscale image
+white visible
+Black not visible
+
+3. Height ( or DISPLACEMENT)
+grayscale image
+move the vertices to create some relief
+Need enough subdivision
+
+4. NORMAL
+
+Add details
+Doesn't need subdivision
+The vertices wont move
+Lure the light about the face orientation
+Better performance than adding a height texture with a lot of subdivision
+
+5.AMBIENT OCCLUSION
+grayscale imageAdd fake shadows in crevices
+Not physically accurate
+Helps to create contrast and see details
+
+6. Metalness
+grayscale image
+white :metallic
+black: non metallic
+
+7. ROUGHNESS
+grayscale image
+In duo with Metalness
+white is rough 
+black is smooth 
+Mostly for light dissipation
+
+
+THE PBR Principles
+
+Physically based rendering
+many technics that tend to follow real-life directions to get realistic results
+becoming the standard for realistic renders
+many software, engines, and libraries are using it!
+
+_____________________________________________________________________________________________
+
+const loader  = new THREE.TextureLoader();
+loader.load('./path/image.png', (texture) => {
+    
+
+})
