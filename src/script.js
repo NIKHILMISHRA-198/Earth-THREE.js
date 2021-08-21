@@ -17,7 +17,7 @@ const scene = new THREE.Scene()
 const loader = new THREE.TextureLoader()
 const cross = loader.load('./cross.png')
 const texture = new THREE.TextureLoader().load('earth.jpg')
-// const texture = new THREE.TextureLoader().load('earth.jpg')
+// const texture = new THREE.TextureLoader().load('earth2.jpg')
 
 //Object
 const geometry = new THREE.SphereGeometry(15, 32, 20);
@@ -40,13 +40,14 @@ particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3
 //Materials
 const material = new THREE.MeshBasicMaterial({
     map: texture,
-    opacity: 1
+    // opacity: 1
 })
 
 const particlesMaterial = new THREE.PointsMaterial({
     size: 0.025,
     map: cross,
     transparent: true,
+
 
 
 })
@@ -58,9 +59,9 @@ const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial)
 
 scene.add(sphere, particlesMesh)
 
-
-
-
+sphere.position.y = -12
+sphere.position.x = 20
+sphere.position.y = 2
 //Lights
 const pointLight = new THREE.PointLight(0xff0000, 0.1)
 pointLight.position.x = 2
@@ -68,10 +69,12 @@ pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
 
+
+
 //Debug
 gui
     .add(sphere.position, 'y')
-    .min(-50)
+    .min(-12)
     .max(50)
     .step(0.01)
     .name("y position")
@@ -79,7 +82,7 @@ gui
 gui
     .add(sphere.position, 'x')
     .min(-50)
-    .max(50)
+    .max(80)
     .step(0.01)
     .name("X position")
 
@@ -94,7 +97,6 @@ gui
 
 gui
     .add(material, 'wireframe')
-
 
 //sizes
 const sizes = {
@@ -125,6 +127,7 @@ scene.add(camera)
 
 //Renderer
 const renderer = new THREE.WebGLRenderer({
+    alpha: true,
     canvas: canvas
 })
 renderer.setSize(sizes.width, sizes.height)
