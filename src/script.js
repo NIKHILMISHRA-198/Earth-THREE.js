@@ -3,9 +3,9 @@ import './style.css'
 import * as dat from 'dat.gui'
 import { map } from 'async'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-
+import './form.js'
 //Debug
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 //Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -47,9 +47,6 @@ const particlesMaterial = new THREE.PointsMaterial({
     size: 0.025,
     map: cross,
     transparent: true,
-
-
-
 })
 
 //Mesh
@@ -72,31 +69,31 @@ scene.add(pointLight)
 
 
 //Debug
-gui
-    .add(sphere.position, 'y')
-    .min(-12)
-    .max(50)
-    .step(0.01)
-    .name("y position")
+// gui
+//     .add(sphere.position, 'y')
+//     .min(-12)
+//     .max(50)
+//     .step(0.01)
+//     .name("y position")
 
-gui
-    .add(sphere.position, 'x')
-    .min(-50)
-    .max(80)
-    .step(0.01)
-    .name("X position")
+// gui
+//     .add(sphere.position, 'x')
+//     .min(-50)
+//     .max(80)
+//     .step(0.01)
+//     .name("X position")
 
-gui
-    .add(sphere.position, 'z')
-    .min(-50)
-    .max(50)
-    .step(0.01)
-    .name("Z position")
-gui
-    .add(sphere, 'visible')
+// gui
+//     .add(sphere.position, 'z')
+//     .min(-50)
+//     .max(50)
+//     .step(0.01)
+//     .name("Z position")
+// gui
+//     .add(sphere, 'visible')
 
-gui
-    .add(material, 'wireframe')
+// gui
+//     .add(material, 'wireframe')
 
 //sizes
 const sizes = {
