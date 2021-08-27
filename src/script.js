@@ -1,7 +1,6 @@
 import * as THREE from 'three'
 import './style.css'
-import * as dat from 'dat.gui'
-import { map } from 'async'
+// import * as dat from 'dat.gui'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import './form.js'
 //Debug
@@ -56,46 +55,19 @@ const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial)
 
 scene.add(sphere, particlesMesh)
 
-sphere.position.y = -12
-sphere.position.x = 20
-sphere.position.y = 2
+sphere.position.y = -10
+sphere.position.x = 30
+sphere.position.z = 2
 //Lights
 const pointLight = new THREE.PointLight(0xff0000, 0.1)
-pointLight.position.x = 2
+pointLight.position.x = 5
 pointLight.position.y = 3
 pointLight.position.z = 4
 scene.add(pointLight)
 
 
 
-//Debug
-// gui
-//     .add(sphere.position, 'y')
-//     .min(-12)
-//     .max(50)
-//     .step(0.01)
-//     .name("y position")
 
-// gui
-//     .add(sphere.position, 'x')
-//     .min(-50)
-//     .max(80)
-//     .step(0.01)
-//     .name("X position")
-
-// gui
-//     .add(sphere.position, 'z')
-//     .min(-50)
-//     .max(50)
-//     .step(0.01)
-//     .name("Z position")
-// gui
-//     .add(sphere, 'visible')
-
-// gui
-//     .add(material, 'wireframe')
-
-//sizes
 const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
@@ -116,10 +88,12 @@ window.addEventListener('resize', () => {
 })
 
 //Camera
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 1, 1000)
+const camera = new THREE.PerspectiveCamera(45, sizes.width / sizes.height, 1, 1000)
 
-camera.position.z = 50
-// camera.lookAt(sphere.position)
+camera.position.z = 70
+camera.position.y = 0
+camera.position.x = 0
+camera.lookAt(sphere.position)
 scene.add(camera)
 
 //Renderer

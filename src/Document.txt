@@ -355,6 +355,35 @@ gui
 
 _____________________________________________________________________________________________
 
+//Debug
+// gui
+//     .add(sphere.position, 'y')
+//     .min(-12)
+//     .max(50)
+//     .step(0.01)
+//     .name("y position")
+
+// gui
+//     .add(sphere.position, 'x')
+//     .min(-50)
+//     .max(80)
+//     .step(0.01)
+//     .name("X position")
+
+// gui
+//     .add(sphere.position, 'z')
+//     .min(-50)
+//     .max(50)
+//     .step(0.01)
+//     .name("Z position")
+// gui
+//     .add(sphere, 'visible')
+
+// gui
+//     .add(material, 'wireframe')
+
+//sizes
+_____________________________________________________________________________________________
 TEXTURE
 1. COLOR (ALBEDO)
 Most simple one
